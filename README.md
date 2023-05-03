@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://user-images.githubusercontent.com/36193643/235635449-37f4efc3-74c4-4750-a39c-e4f2339d5087.png" />
+  <img height="150" src="https://user-images.githubusercontent.com/36193643/236064375-67123a53-6a84-4e13-af87-acc578c92f86.png" />
 </div>
 
 <h1 align=center>Vue tree view</h1>
@@ -10,7 +10,7 @@
 Install using your package manager of choice:
 
 ```bash
-yarn add tree-view
+yarn add vue-tree-view
 ```
 
 ## ⚙️ Usage
