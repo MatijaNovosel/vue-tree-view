@@ -1,13 +1,16 @@
 <template>
-  <tree-view
-    color="primary"
-    :items="treeViewItems"
-    selection-mode="leaf"
-    hoverable
-    v-model="treeViewSelection"
-    dense
-    open-all
-  />
+  <div style="display: flex">
+    <tree-view
+      color="primary"
+      :items="treeViewItems"
+      selection-mode="leaf"
+      hoverable
+      v-model="treeViewSelection"
+      dense
+      open-all
+    />
+    {{ treeViewSelection.sort() }}
+  </div>
 </template>
 
 <script lang="ts" setup>

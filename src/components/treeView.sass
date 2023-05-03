@@ -1,28 +1,21 @@
 @import './variables.scss'
-@import './mixins.sass'
 
-.v-treeview-node
-  &.v-treeview-node--shaped
-    +treeview-shaped($treeview-node-height, $treeview-node-shaped-margin)
-
-  &.v-treeview-node--rounded
-    +treeview-rounded($treeview-node-height, $treeview-node-shaped-margin)
-
+.treeview-node
   &--click
-    > .v-treeview-node__root,
-    > .v-treeview-node__root > .v-treeview-node__content > *
+    > .treeview-node__root,
+    > .treeview-node__root > .treeview-node__content > *
       cursor: pointer
       user-select: none
 
-  &.v-treeview-node--active .v-treeview-node__content .v-icon
+  &.treeview-node--active .treeview-node__content .v-icon
     color: inherit
 
-.v-treeview-node__root
+.treeview-node__root
   display: flex
   align-items: center
   min-height: $treeview-node-height
-  padding-left: $treeview-node-padding
-  padding-right: $treeview-node-padding
+  padding-left: 8px
+  padding-right: 8px
   position: relative
 
   &::before
@@ -37,55 +30,46 @@
     top: 0
     transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1)
 
-  // Fix for IE11 where min-height does not work with
-  // align-items: center in flex containers
-  // https://github.com/philipwalton/flexbugs/issues/231
   &::after
     content: ''
     font-size: 0
     min-height: inherit
 
-.v-treeview-node__children
-  transition: all $treeview-transition
+.treeview-node__children
+  transition: all .2s cubic-bezier(0, 0, 0.2, 1)
 
-.v-treeview--dense
-  .v-treeview-node__root
+.treeview--dense
+  .treeview-node__root
     min-height: $treeview-node-height-dense
 
-  &.v-treeview-node--shaped
-    +treeview-shaped($treeview-node-height-dense, $treeview-node-shaped-margin)
-
-  &.v-treeview-node--rounded
-    +treeview-rounded($treeview-node-height-dense, $treeview-node-shaped-margin)
-
-.v-treeview-node__checkbox
+.treeview-node__checkbox
   width: $treeview-node-level-width
   user-select: none
 
-.v-treeview-node__toggle
+.treeview-node__toggle
   width: $treeview-node-level-width
   user-select: none
 
   &--loading
     animation: progress-circular-rotate 1s linear infinite
 
-.v-treeview-node__prepend
+.treeview-node__prepend
   min-width: $treeview-node-level-width
 
-.v-treeview-node__append
+.treeview-node__append
   min-width: $treeview-node-level-width
 
-.v-treeview-node__level
+.treeview-node__level
   width: $treeview-node-level-width
 
-.v-treeview-node__label
+.treeview-node__label
   flex: 1
-  font-size: $treeview-label-font-size
+  font-size: inherit
   overflow: hidden
   text-overflow: ellipsis
   white-space: nowrap
 
-.v-treeview-node__content
+.treeview-node__content
   align-items: center
   display: flex
   flex-basis: 0%
@@ -93,7 +77,140 @@
   flex-shrink: 0
   min-width: 0
 
-  // TODO: this is temporary fix for d-flex * shenanigans
   .v-btn
     flex-grow: 0 !important
     flex-shrink: 1 !important
+
+.v-enter-active,
+.v-leave-active 
+  transition: opacity 0.3s ease
+
+.v-enter-from,
+.v-leave-to 
+  opacity: 0
+
+.pure-material-checkbox 
+    z-index: 0
+    position: relative
+    display: inline-block
+    font-family: Roboto
+    font-size: 16px
+    line-height: 1.5
+
+.pure-material-checkbox > input 
+    appearance: none
+    -moz-appearance: none
+    -webkit-appearance: none
+    z-index: -1
+    position: absolute
+    left: -10px
+    top: -8px
+    display: block
+    margin: 0
+    border-radius: 50%
+    width: 40px
+    height: 40px
+    box-shadow: none
+    outline: none
+    opacity: 0
+    transform: scale(1)
+    pointer-events: none
+    transition: opacity 0.3s, transform 0.2s
+
+.pure-material-checkbox > span 
+    display: inline-block
+    width: 100%
+    cursor: pointer
+
+
+.pure-material-checkbox > span::before 
+    content: ""
+    display: inline-block
+    box-sizing: border-box
+    margin: 3px 11px 3px 1px
+    border: solid 2px
+    border-color: grey
+    border-radius: 2px
+    width: 18px
+    height: 18px
+    vertical-align: top
+    transition: border-color 0.2s, background-color 0.2s
+
+.pure-material-checkbox > span::after 
+    content: ""
+    display: block
+    position: absolute
+    top: 3px
+    left: 1px
+    width: 10px
+    height: 5px
+    border: solid 2px transparent
+    border-right: none
+    border-top: none
+    transform: translate(3px, 4px) rotate(-45deg)
+
+.pure-material-checkbox > input:checked,
+.pure-material-checkbox > input:indeterminate 
+    background-color: #7e7ec2
+
+
+.pure-material-checkbox > input:checked + span::before,
+.pure-material-checkbox > input:indeterminate + span::before 
+    border-color: #7e7ec2
+    background-color: #7e7ec2
+
+
+.pure-material-checkbox > input:checked + span::after,
+.pure-material-checkbox > input:indeterminate + span::after 
+    border-color: white
+
+
+.pure-material-checkbox > input:indeterminate + span::after 
+    border-left: none
+    transform: translate(4px, 3px)
+
+.pure-material-checkbox:hover > input 
+    opacity: 0.04
+
+
+.pure-material-checkbox > input:focus 
+    opacity: 0.12
+
+
+.pure-material-checkbox:hover > input:focus 
+    opacity: 0.16
+
+
+.pure-material-checkbox > input:active 
+    opacity: 1
+    transform: scale(0)
+    transition: transform 0s, opacity 0s
+
+
+.pure-material-checkbox > input:active + span::before 
+    border-color: #7e7ec2
+
+
+.pure-material-checkbox > input:checked:active + span::before 
+    border-color: transparent
+    background-color: grey
+
+
+.pure-material-checkbox > input:disabled 
+    opacity: 0
+
+
+.pure-material-checkbox > input:disabled + span 
+    color: grey
+    cursor: initial
+
+
+.pure-material-checkbox > input:disabled + span::before 
+    border-color: currentColor
+
+
+.pure-material-checkbox > input:checked:disabled + span::before,
+.pure-material-checkbox > input:indeterminate:disabled + span::before 
+    border-color: transparent
+    background-color: currentColor
+

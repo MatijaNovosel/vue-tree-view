@@ -33,13 +33,10 @@ const selection = ref([]);
 
 ## 📃 Props
 
-| Name           | Type            | Default | Description                                                                                                      |
-| -------------- | --------------- | ------- | ---------------------------------------------------------------------------------------------------------------- |
-| `active-color` | `string`        | #567a0d | Background color of the active value and clock hand                                                              |
-| `body-color`   | `string`        | #eee    | Background color of the picker body                                                                              |
-| `v-model`      | `number`        |         | Standard two way input                                                                                           |
-| `step`         | `number`        | 30      | The step used for displaying the degrees                                                                         |
-| `width`        | `number/string` | 290px   | Sets the width of the element - can be provided as a string like "290px" or "290" or a number, defaults to 290px |
-| `full-width`   | `boolean`       | false   | Ignores the previous `width` prop and sets the width to 100% of the parent container                             |
-| `disabled`     | `boolean`       | false   | Makes the component unclickable                                                                                  |
-| `readonly`     | `boolean`       | false   | Makes the component unclickable, but does not make it seem disabled                                              |
+| Name             | Type               | Default | Description                                                                                                                                                   |
+| ---------------- | ------------------ | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `v-model`        | `number[]`         |         | Standard two way input                                                                                                                                        |
+| `dense`          | `boolean`          | false   | Changes the style of the component to a more compact design                                                                                                   |
+| `openAll`        | `boolean`          | false   | All nodes will be opened on component load                                                                                                                    |
+| `disabled`       | `boolean`          | false   | Makes the component uninteractable                                                                                                                            |
+| `selection-mode` | `independent/leaf` | leaf    | Changes the way selection is handled, `leaf` selects all of the children if clicking on a parent, ` independent` selects a node without triggering any others |

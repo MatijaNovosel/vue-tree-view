@@ -1,5 +1,5 @@
 <template>
-  <div class="v-treeview" :class="classes">
+  <div class="treeview" :class="classes">
     <tree-view-node
       v-for="item in items"
       :color="props.color || 'accent'"
@@ -20,6 +20,7 @@ import {
   reactive,
   watch
 } from "vue";
+import { applyToAllChildren, gatherAllNodeIds } from "./helpers";
 import { TreeViewNodeItem, TreeViewSelectionMode } from "./models";
 import "./treeView.sass";
 import treeViewNode from "./treeViewNode.vue";
@@ -31,9 +32,7 @@ const emit = defineEmits<{
 const props = defineProps<{
   dense?: boolean;
   disabled?: boolean;
-  filter?: () => void;
   openAll?: boolean;
-  search?: string;
   color?: string;
   modelValue: number[];
   items: TreeViewNodeItem[];
@@ -41,18 +40,9 @@ const props = defineProps<{
 }>();
 
 const busOpenNode = useEventBus<number>("open-node");
+const busSelectNode = useEventBus<TreeViewNodeItem>("select-node");
 
-const gatherAllNodeIds = (currentNode: TreeViewNodeItem, res: number[]) => {
-  if (currentNode.children) {
-    for (const child of currentNode.children) {
-      res = [...res, child.id];
-      if (child.children) res = [...res, ...gatherAllNodeIds(child, res)];
-    }
-  }
-  return [...res, currentNode.id];
-};
-
-const openNode = (id: number) => {
+const nodeOpened = (id: number) => {
   if (state.openedNodes.has(id)) {
     state.openedNodes.delete(id);
     return;
@@ -60,7 +50,87 @@ const openNode = (id: number) => {
   state.openedNodes.add(id);
 };
 
-const unsubscribeOpenNode = busOpenNode.on(openNode);
+const checkAllChildrenSelected = (
+  currentNode: TreeViewNodeItem,
+  status: boolean
+): boolean => {
+  if (currentNode.children) {
+    for (const child of currentNode.children) {
+      if (child.children) {
+        status =
+          status &&
+          state.selectedNodes.has(child.id) &&
+          checkAllChildrenSelected(child, status);
+      } else {
+        status = status && state.selectedNodes.has(child.id);
+      }
+    }
+  }
+  return status;
+};
+
+const checkAtLeastOneChildSelected = (
+  currentNode: TreeViewNodeItem,
+  status: boolean
+): boolean => {
+  if (currentNode.children) {
+    for (const child of currentNode.children) {
+      if (child.children) {
+        status =
+          status ||
+          state.selectedNodes.has(child.id) ||
+          checkAtLeastOneChildSelected(child, status);
+      } else {
+        status = status || state.selectedNodes.has(child.id);
+      }
+    }
+  }
+  return status;
+};
+
+const checkChildSelectStatus = (
+  item: TreeViewNodeItem,
+  type: "all" | "atLeastOne"
+) => {
+  return type === "all"
+    ? checkAllChildrenSelected(item, true)
+    : checkAtLeastOneChildSelected(item, false);
+};
+
+const unselectNode = (id: number) => state.selectedNodes.delete(id);
+
+const selectNode = (id: number) => state.selectedNodes.add(id);
+
+const toggleNode = (id: number) => {
+  if (state.selectedNodes.has(id)) {
+    unselectNode(id);
+    return;
+  }
+  selectNode(id);
+};
+
+const nodeSelected = (item: TreeViewNodeItem) => {
+  if (!!item.children && !!item.children.length) {
+    if (
+      state.selectedNodes.has(item.id) &&
+      checkChildSelectStatus(item, "atLeastOne") &&
+      !checkChildSelectStatus(item, "all")
+    ) {
+      applyToAllChildren(item, selectNode);
+    } else {
+      toggleNode(item.id);
+      applyToAllChildren(
+        item,
+        state.selectedNodes.has(item.id) ? selectNode : unselectNode
+      );
+    }
+  } else {
+    toggleNode(item.id);
+  }
+};
+
+const unsubscribeOpenNode = busOpenNode.on(nodeOpened);
+const unsubscribeSelectNode = busSelectNode.on(nodeSelected);
 
 const state = reactive({
   selectedNodes: new Set<number>(),
@@ -71,7 +141,7 @@ provide("selected-nodes", state.selectedNodes);
 provide("opened-nodes", state.openedNodes);
 
 const classes = computed(() => ({
-  "v-treeview--dense": props.dense
+  "treeview--dense": props.dense
 }));
 
 watch(
@@ -95,5 +165,6 @@ onMounted(() => {
 
 onUnmounted(() => {
   unsubscribeOpenNode();
+  unsubscribeSelectNode();
 });
 </script>
