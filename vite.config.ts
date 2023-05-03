@@ -8,8 +8,8 @@ export default defineConfig({
   build: {
     lib: {
       entry: path.resolve(__dirname, "src/index.ts"),
-      name: "TreeView",
-      fileName: "tree-view"
+      name: "VueTreeView",
+      fileName: "vue-tree-view"
     },
     rollupOptions: {
       external: ["vue"],
