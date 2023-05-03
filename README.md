@@ -34,6 +34,7 @@ Import the component locally or define it globally and include the css file:
 <script lang="ts" setup>
 import { ref } from "vue";
 import treeView from "./components/treeView.vue";
+import "vue-tree-view/dist/style.css";
 
 const treeViewItems = [
   {
