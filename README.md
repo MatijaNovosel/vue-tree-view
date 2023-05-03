@@ -89,11 +89,11 @@ const treeViewSelection = ref([]);
 
 ## 📃 Props
 
-| Name             | Type                  | Default | Description                                                                                                                                                   |
-| ---------------- | --------------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `v-model`        | `number[]`            |         | Standard two way input                                                                                                                                        |
-| `dense`          | `boolean`             | false   | Changes the style of the component to a more compact design                                                                                                   |
-| `open-all`       | `boolean`             | false   | All nodes will be opened on component load                                                                                                                    |
-| `disabled`       | `boolean`             | false   | Makes the component uninteractable                                                                                                                            |
-| `selection-mode` | `independent or leaf` | leaf    | Changes the way selection is handled, `leaf` selects all of the children if clicking on a parent, ` independent` selects a node without triggering any others |
-| `color`          | `string`              | #7e7ec2 | Color of the active checkboxes                                                                                                                                |
+| Name             | Type                    | Default | Description                                                                                                                                                   |
+| ---------------- | ----------------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `v-model`        | `number[]`              |         | Standard two way input                                                                                                                                        |
+| `dense`          | `boolean`               | false   | Changes the style of the component to a more compact design                                                                                                   |
+| `open-all`       | `boolean`               | false   | All nodes will be opened on component load                                                                                                                    |
+| `disabled`       | `boolean`               | false   | Makes the component uninteractable                                                                                                                            |
+| `selection-mode` | `independent` or `leaf` | leaf    | Changes the way selection is handled, `leaf` selects all of the children if clicking on a parent, ` independent` selects a node without triggering any others |
+| `color`          | `string`                | #7e7ec2 | Color of the active checkboxes                                                                                                                                |
