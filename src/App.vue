@@ -1,10 +1,8 @@
 <template>
   <div style="display: flex">
     <tree-view
-      color="primary"
+      color="blue"
       :items="treeViewItems"
-      selection-mode="leaf"
-      hoverable
       v-model="treeViewSelection"
       dense
       open-all
@@ -60,32 +58,6 @@ const treeViewItems = [
           }
         ]
       }
-    ]
-  },
-  {
-    id: 15,
-    name: "ID 15",
-    children: [
-      { id: 16, name: "ID 16" },
-      { id: 17, name: "ID 17" },
-      { id: 18, name: "ID 18" }
-    ]
-  },
-  {
-    id: 19,
-    name: "ID 19",
-    children: [
-      {
-        id: 20,
-        name: "ID 20",
-        children: [
-          { id: 21, name: "ID 21" },
-          { id: 22, name: "ID 22" },
-          { id: 23, name: "ID 23" }
-        ]
-      },
-      { id: 24, name: "ID 24" },
-      { id: 25, name: "ID 25" }
     ]
   }
 ];

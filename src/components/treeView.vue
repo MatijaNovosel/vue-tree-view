@@ -27,7 +27,6 @@ import {
   gatherAllNodeIds
 } from "./helpers";
 import { TreeViewNodeItem, TreeViewSelectionMode } from "./models";
-import "./treeView.sass";
 import treeViewNode from "./treeViewNode.vue";
 
 const emit = defineEmits<{
@@ -42,10 +41,11 @@ const props = withDefaults(
     color?: string;
     modelValue: number[];
     items: TreeViewNodeItem[];
-    selectionMode: TreeViewSelectionMode;
+    selectionMode?: TreeViewSelectionMode;
   }>(),
   {
-    color: "#7e7ec2"
+    color: "#7e7ec2",
+    selectionMode: "leaf"
   }
 );
 
@@ -140,3 +140,226 @@ onUnmounted(() => {
   unsubscribeSelectNode();
 });
 </script>
+
+<style>
+.treeview-node--click > .treeview-node__root,
+.treeview-node--click > .treeview-node__root > .treeview-node__content > * {
+  cursor: pointer;
+  user-select: none;
+}
+
+.treeview-node.treeview-node--active .treeview-node__content .v-icon {
+  color: inherit;
+}
+
+.treeview-node__root {
+  display: flex;
+  align-items: center;
+  min-height: 48px;
+  padding-left: 8px;
+  padding-right: 8px;
+  position: relative;
+}
+
+.treeview-node__root::before {
+  background-color: currentColor;
+  bottom: 0;
+  content: "";
+  left: 0;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  right: 0;
+  top: 0;
+  transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
+}
+
+.treeview-node__root::after {
+  content: "";
+  font-size: 0;
+  min-height: inherit;
+}
+
+.treeview-node__children {
+  transition: all 0.2s cubic-bezier(0, 0, 0.2, 1);
+}
+
+.treeview--dense .treeview-node__root {
+  min-height: 40px;
+}
+
+.treeview-node__toggle {
+  width: 24px;
+  user-select: none;
+}
+
+.treeview-node__level {
+  width: 24px;
+}
+
+.treeview-node__content {
+  align-items: center;
+  display: flex;
+  flex-basis: 0%;
+  flex-grow: 1;
+  flex-shrink: 0;
+  min-width: 0;
+}
+
+.open {
+  animation: open 0.15s linear;
+}
+
+@keyframes open {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(90deg);
+  }
+}
+
+.close {
+  animation: close 0.15s linear;
+}
+
+@keyframes close {
+  0% {
+    transform: rotate(90deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+.checkbox {
+  z-index: 0;
+  position: relative;
+  display: inline-block;
+  font-family: Roboto;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.checkbox > input {
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  z-index: -1;
+  position: absolute;
+  left: -10px;
+  top: -8px;
+  display: block;
+  margin: 0;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  box-shadow: none;
+  outline: none;
+  opacity: 0;
+  transform: scale(1);
+  pointer-events: none;
+  transition: opacity 0.3s, transform 0.2s;
+}
+
+.checkbox > span {
+  display: inline-block;
+  width: 100%;
+  cursor: pointer;
+}
+
+.checkbox > span::before {
+  content: "";
+  display: inline-block;
+  box-sizing: border-box;
+  margin: 3px 11px 3px 1px;
+  border: solid 2px;
+  border-color: grey;
+  border-radius: 2px;
+  width: 18px;
+  height: 18px;
+  vertical-align: top;
+  transition: border-color 0.2s, background-color 0.2s;
+}
+
+.checkbox > span::after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 3px;
+  left: 1px;
+  width: 10px;
+  height: 5px;
+  border: solid 2px transparent;
+  border-right: none;
+  border-top: none;
+  transform: translate(3px, 4px) rotate(-45deg);
+}
+
+.checkbox > input:checked,
+.checkbox > input:indeterminate {
+  background-color: v-bind(color);
+}
+
+.checkbox > input:checked + span::before,
+.checkbox > input:indeterminate + span::before {
+  border-color: v-bind(color);
+  background-color: v-bind(color);
+}
+
+.checkbox > input:checked + span::after,
+.checkbox > input:indeterminate + span::after {
+  border-color: white;
+}
+
+.checkbox > input:indeterminate + span::after {
+  border-left: none;
+  transform: translate(4px, 3px);
+}
+
+.checkbox:hover > input {
+  opacity: 0.04;
+}
+
+.checkbox > input:focus {
+  opacity: 0.12;
+}
+
+.checkbox:hover > input:focus {
+  opacity: 0.16;
+}
+
+.checkbox > input:active {
+  opacity: 1;
+  transform: scale(0);
+  transition: transform 0s, opacity 0s;
+}
+
+.checkbox > input:active + span::before {
+  border-color: v-bind(color);
+}
+
+.checkbox > input:checked:active + span::before {
+  border-color: transparent;
+  background-color: grey;
+}
+
+.checkbox > input:disabled {
+  opacity: 0;
+}
+
+.checkbox > input:disabled + span {
+  color: grey;
+  cursor: initial;
+}
+
+.checkbox > input:disabled + span::before {
+  border-color: currentColor;
+}
+
+.checkbox > input:checked:disabled + span::before,
+.checkbox > input:indeterminate:disabled + span::before {
+  border-color: transparent;
+  background-color: currentColor;
+}
+</style>

@@ -1,6 +1,6 @@
 <template>
   <div :class="classes" class="treeview-node treeview-node--click">
-    <div class="treeview-node__root" @click.stop="openNode">
+    <div class="treeview-node__root">
       <div class="treeview-node__content">
         <div class="treeview-node__level" v-for="l in level" :key="l" />
         <div
@@ -8,8 +8,20 @@
           size="35"
           variant="flat"
           class="treeview-node__toggle"
+          @click.stop="openNode"
         >
-          <span> 🔽 </span>
+          <img
+            :style="{
+              transform: `rotate(${isOpen ? 90 : 0}deg)`
+            }"
+            :class="{
+              open: isOpen,
+              close: !isOpen
+            }"
+            src="./chevron.svg"
+            width="15"
+            height="15"
+          />
         </div>
         <div class="treeview-node__level" v-else />
         <label class="checkbox">
@@ -25,18 +37,16 @@
         </label>
       </div>
     </div>
-    <transition>
-      <div class="treeview-node__children" v-if="isOpen">
-        <tree-view-node
-          v-for="child in item.children"
-          :level="level + 1"
-          :key="child.id"
-          :item="child"
-          :color="color"
-          @change="childNodeChanged"
-        />
-      </div>
-    </transition>
+    <div class="treeview-node__children" v-if="isOpen">
+      <tree-view-node
+        v-for="child in item.children"
+        :level="level + 1"
+        :key="child.id"
+        :item="child"
+        :color="color"
+        @change="childNodeChanged"
+      />
+    </div>
   </div>
 </template>
 
@@ -48,7 +58,6 @@ import {
   checkAtLeastOneChildSelected
 } from "./helpers";
 import { TreeViewNodeItem } from "./models";
-import "./treeView.sass";
 
 const { emit: emitNodeOpen } = useEventBus<number>("open-node");
 const { emit: emitNodeSelected } = useEventBus<TreeViewNodeItem>("select-node");
