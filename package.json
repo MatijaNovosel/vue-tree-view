@@ -36,6 +36,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@vueuse/core": "^10.1.2",
+    "sass": "^1.62.1",
     "vue": "^3.2.47"
   },
   "peerDependencies": {
