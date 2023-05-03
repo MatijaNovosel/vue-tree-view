@@ -1,0 +1,52 @@
+{
+  "name": "tree-view",
+  "private": false,
+  "version": "0.0.1",
+  "type": "module",
+  "files": [
+    "dist",
+    "src/components/"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MatijaNovosel/vue-tree-view.git"
+  },
+  "keywords": [
+    "tree-view",
+    "vue3",
+    "vue",
+    "vuejs"
+  ],
+  "main": "./dist/tree-view.umd.cjs",
+  "module": "./dist/tree-view.js",
+  "exports": {
+    ".": {
+      "import": "./dist/tree-view.js",
+      "require": "./dist/tree-view.umd.cjs"
+    },
+    "./dist/style.css": {
+      "import": "./dist/style.css",
+      "require": "./dist/style.css"
+    }
+  },
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "vue": "^3.2.47"
+  },
+  "peerDependencies": {
+    "vue": "^3.0.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^4.1.0",
+    "path": "^0.12.7",
+    "typescript": "^5.0.2",
+    "vite": "^4.3.2",
+    "vite-plugin-dts": "^2.3.0",
+    "vue-tsc": "^1.4.2"
+  }
+}
