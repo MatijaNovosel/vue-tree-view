@@ -1,6 +1,6 @@
 <template>
   <div :class="classes" class="treeview-node treeview-node--click">
-    <div class="treeview-node__root" @click="openNode">
+    <div class="treeview-node__root" @click.stop="openNode">
       <div class="treeview-node__content">
         <div class="treeview-node__level" v-for="l in level" :key="l" />
         <div
@@ -12,12 +12,12 @@
           <span> 🔽 </span>
         </div>
         <div class="treeview-node__level" v-else />
-        <label class="pure-material-checkbox">
+        <label class="checkbox">
           <input
             type="checkbox"
             :indeterminate="isIndeterminate"
             :checked="isChecked"
-            @click.stop="nodeSelected"
+            @click="nodeSelected"
           />
           <span>
             {{ item.name }}

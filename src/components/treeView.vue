@@ -2,7 +2,7 @@
   <div class="treeview" :class="classes">
     <tree-view-node
       v-for="item in items"
-      :color="props.color || 'accent'"
+      :color="props.color"
       :level="1"
       :item="item"
       :key="item.id"
@@ -20,7 +20,12 @@ import {
   reactive,
   watch
 } from "vue";
-import { applyToAllChildren, gatherAllNodeIds } from "./helpers";
+import {
+  applyToAllChildren,
+  checkAllChildrenSelected,
+  checkAtLeastOneChildSelected,
+  gatherAllNodeIds
+} from "./helpers";
 import { TreeViewNodeItem, TreeViewSelectionMode } from "./models";
 import "./treeView.sass";
 import treeViewNode from "./treeViewNode.vue";
@@ -29,15 +34,20 @@ const emit = defineEmits<{
   (e: "update:modelValue", values: number[]): void;
 }>();
 
-const props = defineProps<{
-  dense?: boolean;
-  disabled?: boolean;
-  openAll?: boolean;
-  color?: string;
-  modelValue: number[];
-  items: TreeViewNodeItem[];
-  selectionMode: TreeViewSelectionMode;
-}>();
+const props = withDefaults(
+  defineProps<{
+    dense?: boolean;
+    disabled?: boolean;
+    openAll?: boolean;
+    color?: string;
+    modelValue: number[];
+    items: TreeViewNodeItem[];
+    selectionMode: TreeViewSelectionMode;
+  }>(),
+  {
+    color: "#7e7ec2"
+  }
+);
 
 const busOpenNode = useEventBus<number>("open-node");
 const busSelectNode = useEventBus<TreeViewNodeItem>("select-node");
@@ -50,51 +60,13 @@ const nodeOpened = (id: number) => {
   state.openedNodes.add(id);
 };
 
-const checkAllChildrenSelected = (
-  currentNode: TreeViewNodeItem,
-  status: boolean
-): boolean => {
-  if (currentNode.children) {
-    for (const child of currentNode.children) {
-      if (child.children) {
-        status =
-          status &&
-          state.selectedNodes.has(child.id) &&
-          checkAllChildrenSelected(child, status);
-      } else {
-        status = status && state.selectedNodes.has(child.id);
-      }
-    }
-  }
-  return status;
-};
-
-const checkAtLeastOneChildSelected = (
-  currentNode: TreeViewNodeItem,
-  status: boolean
-): boolean => {
-  if (currentNode.children) {
-    for (const child of currentNode.children) {
-      if (child.children) {
-        status =
-          status ||
-          state.selectedNodes.has(child.id) ||
-          checkAtLeastOneChildSelected(child, status);
-      } else {
-        status = status || state.selectedNodes.has(child.id);
-      }
-    }
-  }
-  return status;
-};
-
 const checkChildSelectStatus = (
   item: TreeViewNodeItem,
   type: "all" | "atLeastOne"
 ) => {
   return type === "all"
-    ? checkAllChildrenSelected(item, true)
-    : checkAtLeastOneChildSelected(item, false);
+    ? checkAllChildrenSelected(state.selectedNodes, item, true)
+    : checkAtLeastOneChildSelected(state.selectedNodes, item, false);
 };
 
 const unselectNode = (id: number) => state.selectedNodes.delete(id);

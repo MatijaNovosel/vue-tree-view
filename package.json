@@ -1,5 +1,5 @@
 {
-  "name": "tree-view",
+  "name": "vue-tree-view",
   "private": false,
   "version": "0.0.1",
   "type": "module",
@@ -13,16 +13,17 @@
   },
   "keywords": [
     "tree-view",
+    "vue-tree-view",
     "vue3",
     "vue",
     "vuejs"
   ],
-  "main": "./dist/tree-view.umd.cjs",
-  "module": "./dist/tree-view.js",
+  "main": "./dist/vue-tree-view.umd.cjs",
+  "module": "./dist/vue-tree-view.js",
   "exports": {
     ".": {
-      "import": "./dist/tree-view.js",
-      "require": "./dist/tree-view.umd.cjs"
+      "import": "./dist/vue-tree-view.js",
+      "require": "./dist/vue-tree-view.umd.cjs"
     },
     "./dist/style.css": {
       "import": "./dist/style.css",
