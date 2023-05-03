@@ -8,8 +8,8 @@ export default defineConfig({
   build: {
     lib: {
       entry: path.resolve(__dirname, "src/index.ts"),
-      name: "DegreePicker",
-      fileName: "degree-picker"
+      name: "TreeView",
+      fileName: "tree-view"
     },
     rollupOptions: {
       external: ["vue"],
