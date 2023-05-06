@@ -2,6 +2,7 @@
   <div class="treeview" :class="classes">
     <tree-view-node
       v-for="item in items"
+      :selectable="selectable"
       :color="props.color"
       :level="1"
       :item="item"
@@ -38,6 +39,7 @@ const props = withDefaults(
     dense?: boolean;
     disabled?: boolean;
     openAll?: boolean;
+    selectable?: boolean;
     color?: string;
     modelValue: number[];
     items: TreeViewNodeItem[];
@@ -45,7 +47,8 @@ const props = withDefaults(
   }>(),
   {
     color: "#7e7ec2",
-    selectionMode: "leaf"
+    selectionMode: "leaf",
+    selectable: true
   }
 );
 

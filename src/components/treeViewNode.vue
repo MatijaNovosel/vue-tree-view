@@ -24,22 +24,28 @@
           />
         </div>
         <div class="treeview-node__level" v-else />
-        <label class="checkbox">
-          <input
-            type="checkbox"
-            :indeterminate="isIndeterminate"
-            :checked="isChecked"
-            @click="nodeSelected"
-          />
-          <span>
-            {{ item.name }}
-          </span>
-        </label>
+        <template v-if="selectable">
+          <label class="checkbox">
+            <input
+              type="checkbox"
+              :indeterminate="isIndeterminate"
+              :checked="isChecked"
+              @click="nodeSelected"
+            />
+            <span>
+              {{ item.name }}
+            </span>
+          </label>
+        </template>
+        <template v-else>
+          {{ item.name }}
+        </template>
       </div>
     </div>
     <div class="treeview-node__children" v-if="isOpen">
       <tree-view-node
         v-for="child in item.children"
+        :selectable="selectable"
         :level="level + 1"
         :key="child.id"
         :item="child"
@@ -72,6 +78,7 @@ const openedNodes = inject<Set<number>>("opened-nodes");
 const props = defineProps<{
   level: number;
   item: TreeViewNodeItem;
+  selectable?: boolean;
   color?: string;
 }>();
 
