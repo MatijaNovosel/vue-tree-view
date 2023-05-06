@@ -1,5 +1,5 @@
 <div align="center">
-  <img height="150" src="https://user-images.githubusercontent.com/36193643/236064375-67123a53-6a84-4e13-af87-acc578c92f86.png" />
+  <img src="https://user-images.githubusercontent.com/36193643/236633388-ab400a17-41ba-42a4-a06c-05d62349def2.png" />
 </div>
 
 <h1 align=center>Vue tree view</h1>
