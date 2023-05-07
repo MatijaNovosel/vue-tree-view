@@ -3,29 +3,24 @@
     <div class="treeview-node__root">
       <div class="treeview-node__content">
         <div class="treeview-node__level" v-for="l in level" :key="l" />
-        <div
+        <img
+          :style="{
+            transform: `rotate(${isOpen ? 90 : 0}deg)`
+          }"
+          :class="{
+            open: isOpen,
+            close: !isOpen
+          }"
+          src="./chevron.svg"
+          width="15"
+          height="15"
           v-if="hasChildren"
-          size="35"
-          variant="flat"
           class="treeview-node__toggle"
           @click.stop="openNode"
-        >
-          <img
-            :style="{
-              transform: `rotate(${isOpen ? 90 : 0}deg)`
-            }"
-            :class="{
-              open: isOpen,
-              close: !isOpen
-            }"
-            src="./chevron.svg"
-            width="15"
-            height="15"
-          />
-        </div>
+        />
         <div class="treeview-node__level" v-else />
         <template v-if="selectable">
-          <label class="checkbox">
+          <label class="m-checkbox">
             <input
               :disabled="disabled"
               type="checkbox"

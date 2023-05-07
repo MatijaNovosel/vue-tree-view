@@ -195,6 +195,7 @@ onUnmounted(() => {
 .treeview-node__toggle {
   width: 24px;
   user-select: none;
+  margin-right: 4px;
 }
 
 .treeview-node__level {
@@ -236,7 +237,7 @@ onUnmounted(() => {
   }
 }
 
-.checkbox {
+.m-checkbox {
   z-index: 0;
   position: relative;
   display: inline-block;
@@ -245,7 +246,7 @@ onUnmounted(() => {
   line-height: 1.5;
 }
 
-.checkbox > input {
+.m-checkbox > input {
   appearance: none;
   -moz-appearance: none;
   -webkit-appearance: none;
@@ -266,13 +267,13 @@ onUnmounted(() => {
   transition: opacity 0.3s, transform 0.2s;
 }
 
-.checkbox > span {
+.m-checkbox > span {
   display: inline-block;
   width: 100%;
   cursor: pointer;
 }
 
-.checkbox > span::before {
+.m-checkbox > span::before {
   content: "";
   display: inline-block;
   box-sizing: border-box;
@@ -286,7 +287,7 @@ onUnmounted(() => {
   transition: border-color 0.2s, background-color 0.2s;
 }
 
-.checkbox > span::after {
+.m-checkbox > span::after {
   content: "";
   display: block;
   position: absolute;
@@ -300,69 +301,69 @@ onUnmounted(() => {
   transform: translate(3px, 4px) rotate(-45deg);
 }
 
-.checkbox > input:checked,
-.checkbox > input:indeterminate {
+.m-checkbox > input:checked,
+.m-checkbox > input:indeterminate {
   background-color: v-bind(color);
 }
 
-.checkbox > input:checked + span::before,
-.checkbox > input:indeterminate + span::before {
+.m-checkbox > input:checked + span::before,
+.m-checkbox > input:indeterminate + span::before {
   border-color: v-bind(color);
   background-color: v-bind(color);
 }
 
-.checkbox > input:checked + span::after,
-.checkbox > input:indeterminate + span::after {
+.m-checkbox > input:checked + span::after,
+.m-checkbox > input:indeterminate + span::after {
   border-color: white;
 }
 
-.checkbox > input:indeterminate + span::after {
+.m-checkbox > input:indeterminate + span::after {
   border-left: none;
   transform: translate(4px, 3px);
 }
 
-.checkbox:hover > input {
+.m-checkbox:hover > input {
   opacity: 0.04;
 }
 
-.checkbox > input:focus {
+.m-checkbox > input:focus {
   opacity: 0.12;
 }
 
-.checkbox:hover > input:focus {
+.m-checkbox:hover > input:focus {
   opacity: 0.16;
 }
 
-.checkbox > input:active {
+.m-checkbox > input:active {
   opacity: 1;
   transform: scale(0);
   transition: transform 0s, opacity 0s;
 }
 
-.checkbox > input:active + span::before {
+.m-checkbox > input:active + span::before {
   border-color: v-bind(color);
 }
 
-.checkbox > input:checked:active + span::before {
+.m-checkbox > input:checked:active + span::before {
   border-color: transparent;
   background-color: grey;
 }
 
-.checkbox > input:disabled {
+.m-checkbox > input:disabled {
   opacity: 0;
 }
 
-.checkbox > input:disabled + span {
+.m-checkbox > input:disabled + span {
   color: grey;
   cursor: initial;
 }
 
-.checkbox > input:disabled + span::before {
+.m-checkbox > input:disabled + span::before {
   border-color: currentColor;
 }
 
-.checkbox > input:checked:disabled + span::before,
-.checkbox > input:indeterminate:disabled + span::before {
+.m-checkbox > input:checked:disabled + span::before,
+.m-checkbox > input:indeterminate:disabled + span::before {
   border-color: transparent;
   background-color: currentColor;
 }
