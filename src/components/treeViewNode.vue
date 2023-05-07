@@ -47,6 +47,7 @@
         :item="child"
         :color="color"
         :disabled="disabled"
+        :unopenable="unopenable"
         @change="childNodeChanged"
       />
     </div>
@@ -77,6 +78,7 @@ const props = defineProps<{
   item: TreeViewNodeItem;
   selectable?: boolean;
   disabled?: boolean;
+  unopenable?: boolean;
   color?: string;
 }>();
 
@@ -110,7 +112,7 @@ const nodeSelected = () => {
 };
 
 const openNode = () => {
-  if (hasChildren.value) emitNodeOpen(props.item.id);
+  if (hasChildren.value && !props.unopenable) emitNodeOpen(props.item.id);
 };
 
 const classes = computed(() => ({

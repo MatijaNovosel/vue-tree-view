@@ -8,6 +8,7 @@
       :item="item"
       :key="item.id"
       :disabled="disabled"
+      :unopenable="unopenable"
     />
   </div>
 </template>
@@ -41,6 +42,7 @@ const props = withDefaults(
     disabled?: boolean;
     openAll?: boolean;
     selectable?: boolean;
+    unopenable?: boolean;
     color?: string;
     modelValue: number[];
     items: TreeViewNodeItem[];
