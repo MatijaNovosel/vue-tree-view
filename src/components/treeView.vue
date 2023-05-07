@@ -7,6 +7,7 @@
       :level="1"
       :item="item"
       :key="item.id"
+      :disabled="disabled"
     />
   </div>
 </template>

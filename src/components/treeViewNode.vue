@@ -27,6 +27,7 @@
         <template v-if="selectable">
           <label class="checkbox">
             <input
+              :disabled="disabled"
               type="checkbox"
               :indeterminate="isIndeterminate"
               :checked="isChecked"
@@ -50,6 +51,7 @@
         :key="child.id"
         :item="child"
         :color="color"
+        :disabled="disabled"
         @change="childNodeChanged"
       />
     </div>
@@ -79,6 +81,7 @@ const props = defineProps<{
   level: number;
   item: TreeViewNodeItem;
   selectable?: boolean;
+  disabled?: boolean;
   color?: string;
 }>();
 

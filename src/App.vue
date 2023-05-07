@@ -6,6 +6,7 @@
       v-model="treeViewSelection"
       dense
       open-all
+      disabled
     />
     {{ treeViewSelection.sort() }}
   </div>
