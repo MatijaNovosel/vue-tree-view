@@ -64,3 +64,13 @@ export const checkAtLeastOneChildSelected = (
   }
   return status;
 };
+
+export const checkChildSelectStatus = (
+  selectedNodes: Set<number>,
+  item: TreeViewNodeItem,
+  type: "all" | "atLeastOne"
+) => {
+  return type === "all"
+    ? checkAllChildrenSelected(selectedNodes, item, true)
+    : checkAtLeastOneChildSelected(selectedNodes, item, false);
+};

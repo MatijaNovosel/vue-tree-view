@@ -57,10 +57,7 @@
 <script lang="ts" setup>
 import { useEventBus } from "@vueuse/core";
 import { computed, inject } from "vue";
-import {
-  checkAllChildrenSelected,
-  checkAtLeastOneChildSelected
-} from "./helpers";
+import { checkChildSelectStatus } from "./helpers";
 import { TreeViewNodeItem } from "./models";
 
 const { emit: emitNodeOpen } = useEventBus<number>("open-node");
@@ -82,22 +79,50 @@ const props = defineProps<{
   color?: string;
 }>();
 
-const checkChildSelectStatus = (type: "all" | "atLeastOne") => {
-  return type === "all"
-    ? checkAllChildrenSelected(selectedNodes!, props.item, true)
-    : checkAtLeastOneChildSelected(selectedNodes!, props.item, false);
-};
+const classes = computed(() => ({
+  "treeview-node--leaf": !hasChildren.value
+}));
 
-const selectNode = (id: number) => selectedNodes!.add(id);
+const isOpen = computed(() => openedNodes?.has(props.item.id));
+
+const isSelected = computed(() => selectedNodes?.has(props.item.id));
+
+const hasChildren = computed(
+  () => !!props.item.children && !!props.item.children.length
+);
+
+const allChildrenSelected = computed(() =>
+  checkChildSelectStatus(selectedNodes!, props.item, "all")
+);
+const atLeastOneChildSelected = computed(() =>
+  checkChildSelectStatus(selectedNodes!, props.item, "atLeastOne")
+);
+
+const isChecked = computed(() => {
+  if (hasChildren.value) {
+    if (allChildrenSelected.value) return true;
+    if (atLeastOneChildSelected.value) return false;
+    return false;
+  }
+  return isSelected.value;
+});
+
+const isIndeterminate = computed(() => {
+  if (hasChildren.value) {
+    if (allChildrenSelected.value) return false;
+    if (atLeastOneChildSelected.value) return true;
+  }
+  return false;
+});
 
 const childNodeChanged = () => {
   const id = props.item.id;
   if (hasChildren.value) {
-    if (checkChildSelectStatus("all")) {
+    if (allChildrenSelected.value) {
       if (!isSelected.value) nodeSelected();
     } else {
-      if (checkChildSelectStatus("atLeastOne")) {
-        if (!isSelected.value) selectNode(id);
+      if (atLeastOneChildSelected.value) {
+        if (!isSelected.value) selectedNodes!.add(id);
       } else {
         if (isSelected.value) nodeSelected();
       }
@@ -114,33 +139,4 @@ const nodeSelected = () => {
 const openNode = () => {
   if (hasChildren.value && !props.unopenable) emitNodeOpen(props.item.id);
 };
-
-const classes = computed(() => ({
-  "treeview-node--leaf": !hasChildren.value
-}));
-
-const isOpen = computed(() => openedNodes?.has(props.item.id));
-
-const isSelected = computed(() => selectedNodes?.has(props.item.id));
-
-const hasChildren = computed(
-  () => !!props.item.children && !!props.item.children.length
-);
-
-const isChecked = computed(() => {
-  if (hasChildren.value) {
-    if (checkChildSelectStatus("all")) return true;
-    if (checkChildSelectStatus("atLeastOne")) return false;
-    return false;
-  }
-  return isSelected.value;
-});
-
-const isIndeterminate = computed(() => {
-  if (hasChildren.value) {
-    if (checkChildSelectStatus("all")) return false;
-    if (checkChildSelectStatus("atLeastOne")) return true;
-  }
-  return false;
-});
 </script>

@@ -25,8 +25,7 @@ import {
 } from "vue";
 import {
   applyToAllChildren,
-  checkAllChildrenSelected,
-  checkAtLeastOneChildSelected,
+  checkChildSelectStatus,
   gatherAllNodeIds
 } from "./helpers";
 import { TreeViewNodeItem, TreeViewSelectionMode } from "./models";
@@ -66,15 +65,6 @@ const nodeOpened = (id: number) => {
   state.openedNodes.add(id);
 };
 
-const checkChildSelectStatus = (
-  item: TreeViewNodeItem,
-  type: "all" | "atLeastOne"
-) => {
-  return type === "all"
-    ? checkAllChildrenSelected(state.selectedNodes, item, true)
-    : checkAtLeastOneChildSelected(state.selectedNodes, item, false);
-};
-
 const unselectNode = (id: number) => state.selectedNodes.delete(id);
 
 const selectNode = (id: number) => state.selectedNodes.add(id);
@@ -91,8 +81,8 @@ const nodeSelected = (item: TreeViewNodeItem) => {
   if (!!item.children && !!item.children.length) {
     if (
       state.selectedNodes.has(item.id) &&
-      checkChildSelectStatus(item, "atLeastOne") &&
-      !checkChildSelectStatus(item, "all")
+      checkChildSelectStatus(state.selectedNodes, item, "atLeastOne") &&
+      !checkChildSelectStatus(state.selectedNodes, item, "all")
     ) {
       applyToAllChildren(item, selectNode);
     } else {
