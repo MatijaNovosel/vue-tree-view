@@ -29,7 +29,7 @@
               @click="nodeSelected"
             />
             <span>
-              {{ selectedNodes }}
+              {{ item.name }}
             </span>
           </label>
         </template>
