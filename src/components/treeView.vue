@@ -120,6 +120,17 @@ watch(
   }
 );
 
+watch(
+  () => props.modelValue,
+  (val) => {
+    state.selectedNodes.clear();
+    val.forEach((x) => selectNode(x));
+  },
+  {
+    immediate: true
+  }
+);
+
 onMounted(() => {
   if (props.openAll === true) {
     let allVals: number[] = [];

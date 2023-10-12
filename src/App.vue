@@ -63,5 +63,5 @@ const treeViewItems = [
   }
 ];
 
-const treeViewSelection = ref([]);
+const treeViewSelection = ref([8, 9]);
 </script>
