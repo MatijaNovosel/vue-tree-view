@@ -13,6 +13,10 @@ Install using your package manager of choice:
 yarn add vue-tree-view
 ```
 
+## 📺 Demo
+
+https://matija-components.vercel.app/tree-view
+
 ## ⚙️ Usage
 
 Import the component locally or define it globally and include the css file:
