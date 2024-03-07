@@ -94,6 +94,7 @@ const hasChildren = computed(
 const allChildrenSelected = computed(() =>
   checkChildSelectStatus(selectedNodes!, props.item, "all")
 );
+
 const atLeastOneChildSelected = computed(() =>
   checkChildSelectStatus(selectedNodes!, props.item, "atLeastOne")
 );

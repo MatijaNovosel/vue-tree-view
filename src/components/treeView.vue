@@ -67,7 +67,9 @@ const nodeOpened = (id: number) => {
 
 const unselectNode = (id: number) => state.selectedNodes.delete(id);
 
-const selectNode = (id: number) => state.selectedNodes.add(id);
+const selectNode = (id: number) => {
+  state.selectedNodes.add(id);
+};
 
 const toggleNode = (id: number) => {
   if (state.selectedNodes.has(id)) {
@@ -102,7 +104,8 @@ const unsubscribeSelectNode = busSelectNode.on(nodeSelected);
 
 const state = reactive({
   selectedNodes: new Set<number>(),
-  openedNodes: new Set<number>()
+  openedNodes: new Set<number>(),
+  stopRecursion: false
 });
 
 provide("selected-nodes", state.selectedNodes);
@@ -114,7 +117,10 @@ const classes = computed(() => ({
 
 watch(
   () => state.selectedNodes,
-  (val) => emit("update:modelValue", [...val]),
+  (val) => {
+    emit("update:modelValue", [...val]);
+    state.stopRecursion = true;
+  },
   {
     deep: true
   }
@@ -123,8 +129,11 @@ watch(
 watch(
   () => props.modelValue,
   (val) => {
-    state.selectedNodes.clear();
-    val.forEach((x) => selectNode(x));
+    if (state.stopRecursion) {
+      state.stopRecursion = false;
+      return;
+    }
+    for (const n of [...new Set(val)]) state.selectedNodes.add(n);
   },
   {
     immediate: true

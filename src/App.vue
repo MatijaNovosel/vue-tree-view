@@ -6,7 +6,6 @@
       v-model="treeViewSelection"
       dense
       open-all
-      unopenable
     />
     {{ treeViewSelection.sort() }}
   </div>
@@ -63,5 +62,5 @@ const treeViewItems = [
   }
 ];
 
-const treeViewSelection = ref([8, 9]);
+const treeViewSelection = ref([3]);
 </script>
