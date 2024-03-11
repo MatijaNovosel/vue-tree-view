@@ -2,7 +2,7 @@
   <div :class="classes" class="treeview-node treeview-node--click">
     <div class="treeview-node__root">
       <div class="treeview-node__content">
-        <div class="treeview-node__level" v-for="l in level" :key="l" />
+        <div class="treeview-node__level" v-for="l in props.level" :key="l" />
         <img
           :style="{
             transform: `rotate(${isOpen ? 90 : 0}deg)`
@@ -19,10 +19,10 @@
           @click.stop="openNode"
         />
         <div class="treeview-node__level" v-else />
-        <template v-if="selectable">
+        <template v-if="props.selectable">
           <label class="m-checkbox">
             <input
-              :disabled="disabled"
+              :disabled="props.disabled"
               type="checkbox"
               :indeterminate="isIndeterminate"
               :checked="isChecked"
@@ -40,14 +40,15 @@
     </div>
     <div class="treeview-node__children" v-if="isOpen">
       <tree-view-node
-        v-for="child in item.children"
-        :selectable="selectable"
-        :level="level + 1"
+        v-for="child in props.item.children"
+        :selectable="props.selectable"
+        :level="props.level + 1"
         :key="child.id"
         :item="child"
-        :color="color"
-        :disabled="disabled"
-        :unopenable="unopenable"
+        :color="props.color"
+        :disabled="props.disabled"
+        :unopenable="props.unopenable"
+        :identifier="props.identifier"
         @change="childNodeChanged"
       />
     </div>
@@ -59,9 +60,6 @@ import { useEventBus } from "@vueuse/core";
 import { computed, inject } from "vue";
 import { checkChildSelectStatus } from "./helpers";
 import { TreeViewNodeItem } from "./models";
-
-const { emit: emitNodeOpen } = useEventBus<number>("open-node");
-const { emit: emitNodeSelected } = useEventBus<TreeViewNodeItem>("select-node");
 
 const emit = defineEmits<{
   (e: "change"): void;
@@ -77,7 +75,15 @@ const props = defineProps<{
   disabled?: boolean;
   unopenable?: boolean;
   color?: string;
+  identifier: number;
 }>();
+
+const { emit: emitNodeOpen } = useEventBus<number>(
+  `open-node-${props.identifier}`
+);
+const { emit: emitNodeSelected } = useEventBus<TreeViewNodeItem>(
+  `select-node-${props.identifier}`
+);
 
 const classes = computed(() => ({
   "treeview-node--leaf": !hasChildren.value

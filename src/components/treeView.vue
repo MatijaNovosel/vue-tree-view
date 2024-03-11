@@ -9,12 +9,13 @@
       :key="item.id"
       :disabled="disabled"
       :unopenable="unopenable"
+      :identifier="identifier"
     />
   </div>
 </template>
 
 <script lang="ts" setup>
-import { useEventBus } from "@vueuse/core";
+import { rand, useEventBus } from "@vueuse/core";
 import {
   computed,
   onMounted,
@@ -54,8 +55,12 @@ const props = withDefaults(
   }
 );
 
-const busOpenNode = useEventBus<number>("open-node");
-const busSelectNode = useEventBus<TreeViewNodeItem>("select-node");
+const identifier = rand(1, 9999);
+
+const busOpenNode = useEventBus<number>(`open-node-${identifier}`);
+const busSelectNode = useEventBus<TreeViewNodeItem>(
+  `select-node-${identifier}`
+);
 
 const nodeOpened = (id: number) => {
   if (state.openedNodes.has(id)) {
