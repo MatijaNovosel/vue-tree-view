@@ -138,7 +138,7 @@ watch(
       state.stopRecursion = false;
       return;
     }
-    for (const n of [...new Set(val)]) state.selectedNodes.add(n);
+    for (const n of [...new Set(val)]) state.selectedNodes.add(n as number);
   },
   {
     immediate: true
