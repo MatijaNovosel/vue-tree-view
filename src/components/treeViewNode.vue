@@ -2,7 +2,12 @@
   <div :class="classes" class="treeview-node treeview-node--click">
     <div class="treeview-node__root">
       <div class="treeview-node__content">
-        <div class="treeview-node__level" v-for="l in props.level" :key="l" />
+        {{ props.level }}
+        <div
+          class="treeview-node__level"
+          v-for="l in numberOfLevels"
+          :key="l"
+        />
         <img
           :style="{
             transform: `rotate(${isOpen ? 90 : 0}deg)`
@@ -120,6 +125,11 @@ const isIndeterminate = computed(() => {
     if (atLeastOneChildSelected.value) return true;
   }
   return false;
+});
+
+const numberOfLevels = computed(() => {
+  if (hasChildren.value || props.level !== 1) return props.level - 1;
+  return 0;
 });
 
 const childNodeChanged = () => {

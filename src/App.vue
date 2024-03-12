@@ -18,12 +18,7 @@ import treeView from "./components/treeView.vue";
 const treeViewItems = [
   {
     id: 1,
-    name: "ID 1",
-    children: [
-      { id: 2, name: "ID 2" },
-      { id: 3, name: "ID 3" },
-      { id: 4, name: "ID 4" }
-    ]
+    name: "ID 1"
   },
   {
     id: 5,
