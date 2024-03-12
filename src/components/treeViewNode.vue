@@ -2,7 +2,6 @@
   <div :class="classes" class="treeview-node treeview-node--click">
     <div class="treeview-node__root">
       <div class="treeview-node__content">
-        {{ props.level }}
         <div
           class="treeview-node__level"
           v-for="l in numberOfLevels"
