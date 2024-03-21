@@ -1,5 +1,6 @@
 <template>
   <div style="display: flex">
+    <button @click="clear">Click me</button>
     <tree-view
       color="blue"
       :items="treeViewItems"
@@ -19,6 +20,18 @@ const treeViewItems = [
   {
     id: 1,
     name: "ID 1"
+  },
+  {
+    id: 2,
+    name: "ID 2"
+  },
+  {
+    id: 3,
+    name: "ID 3"
+  },
+  {
+    id: 4,
+    name: "ID 4"
   },
   {
     id: 5,
@@ -58,4 +71,8 @@ const treeViewItems = [
 ];
 
 const treeViewSelection = ref([3]);
+
+const clear = () => {
+  treeViewSelection.value = [];
+};
 </script>
