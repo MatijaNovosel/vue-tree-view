@@ -17,17 +17,17 @@
 <script lang="ts" setup>
 import { rand, useEventBus } from "@vueuse/core";
 import {
-computed,
-onMounted,
-onUnmounted,
-provide,
-reactive,
-watch
+  computed,
+  onMounted,
+  onUnmounted,
+  provide,
+  reactive,
+  watch
 } from "vue";
 import {
-applyToAllChildren,
-checkChildSelectStatus,
-gatherAllNodeIds
+  applyToAllChildren,
+  checkChildSelectStatus,
+  gatherAllNodeIds
 } from "./helpers";
 import { TreeViewNodeItem, TreeViewSelectionMode } from "./models";
 import treeViewNode from "./treeViewNode.vue";
@@ -139,7 +139,7 @@ watch(
       return;
     }
     if (val.length) {
-      for (const n of [...new Set(val)]) state.selectedNodes.add(n);
+      for (const n of [...new Set(val)]) state.selectedNodes.add(n as number);
       return;
     }
     state.selectedNodes.clear();
