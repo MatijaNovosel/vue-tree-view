@@ -22,6 +22,7 @@
   "module": "./dist/vue-tree-view.js",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/vue-tree-view.js",
       "require": "./dist/vue-tree-view.umd.cjs"
     },
@@ -30,7 +31,6 @@
       "require": "./dist/style.css"
     }
   },
-  "types": "./dist/index.d.ts",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc && vite build",
