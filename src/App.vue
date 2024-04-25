@@ -1,14 +1,17 @@
 <template>
-  <div style="display: flex">
-    <button @click="clear">Click me</button>
+  <div style="display: flex; flex-direction: column">
     <tree-view
       color="blue"
+      radio
       :items="treeViewItems"
       v-model="treeViewSelection"
       dense
       open-all
     />
     {{ treeViewSelection.sort() }}
+    <button @click="clear" style="width: fit-content; margin-top: 15px">
+      Click me
+    </button>
   </div>
 </template>
 

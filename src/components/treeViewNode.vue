@@ -24,18 +24,32 @@
         />
         <div class="treeview-node__level" v-else />
         <template v-if="props.selectable">
-          <label class="m-checkbox">
+          <div class="radio-group" v-if="props.radio">
             <input
               :disabled="props.disabled"
-              type="checkbox"
-              :indeterminate="isIndeterminate"
-              :checked="isChecked"
+              class="radio"
               @click="nodeSelected"
+              type="radio"
+              :checked="isChecked"
             />
             <span>
               {{ item.name }}
             </span>
-          </label>
+          </div>
+          <template v-else>
+            <label class="m-checkbox">
+              <input
+                :disabled="props.disabled"
+                type="checkbox"
+                :indeterminate="isIndeterminate"
+                :checked="isChecked"
+                @click="nodeSelected"
+              />
+              <span>
+                {{ item.name }}
+              </span>
+            </label>
+          </template>
         </template>
         <template v-else>
           {{ item.name }}
@@ -53,6 +67,7 @@
         :disabled="props.disabled"
         :unopenable="props.unopenable"
         :identifier="props.identifier"
+        :radio="props.radio"
         @change="childNodeChanged"
       />
     </div>
@@ -76,6 +91,7 @@ const props = defineProps<{
   level: number;
   item: TreeViewNodeItem;
   selectable?: boolean;
+  radio?: boolean;
   disabled?: boolean;
   unopenable?: boolean;
   color?: string;
@@ -156,3 +172,17 @@ const openNode = () => {
   if (hasChildren.value && !props.unopenable) emitNodeOpen(props.item.id);
 };
 </script>
+
+<style>
+.radio-group {
+  display: flex;
+  align-items: center;
+  justify-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+input[type="radio"] {
+  margin: 0;
+}
+</style>

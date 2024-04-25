@@ -1,14 +1,15 @@
 <template>
   <div class="treeview" :class="classes">
     <tree-view-node
-      v-for="item in items"
-      :selectable="selectable"
+      v-for="item in props.items"
+      :selectable="props.selectable"
       :color="props.color"
       :level="1"
       :item="item"
       :key="item.id"
-      :disabled="disabled"
-      :unopenable="unopenable"
+      :disabled="props.disabled"
+      :unopenable="props.unopenable"
+      :radio="props.radio"
       :identifier="identifier"
     />
   </div>
@@ -40,6 +41,7 @@ const props = withDefaults(
   defineProps<{
     dense?: boolean;
     disabled?: boolean;
+    radio?: boolean;
     openAll?: boolean;
     selectable?: boolean;
     unopenable?: boolean;
@@ -51,7 +53,8 @@ const props = withDefaults(
   {
     color: "#7e7ec2",
     selectionMode: "leaf",
-    selectable: true
+    selectable: true,
+    radio: false
   }
 );
 
@@ -167,14 +170,14 @@ onUnmounted(() => {
 </script>
 
 <style>
+.treeview {
+  font-family: Roboto;
+}
+
 .treeview-node--click > .treeview-node__root,
 .treeview-node--click > .treeview-node__root > .treeview-node__content > * {
   cursor: pointer;
   user-select: none;
-}
-
-.treeview-node.treeview-node--active .treeview-node__content .v-icon {
-  color: inherit;
 }
 
 .treeview-node__root {
@@ -262,7 +265,6 @@ onUnmounted(() => {
   z-index: 0;
   position: relative;
   display: inline-block;
-  font-family: Roboto;
   font-size: 16px;
   line-height: 1.5;
 }
