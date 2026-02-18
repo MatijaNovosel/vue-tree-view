@@ -1,4 +1,4 @@
-export type TreeViewSelectionMode = "independent" | "leaf";
+export type TreeViewSelectionMode = "classic" | "independent";
 
 export interface TreeViewNodeItem {
   id: number;

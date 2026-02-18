@@ -2,7 +2,6 @@
   <div style="display: flex; flex-direction: column">
     <tree-view
       color="blue"
-      radio
       :items="treeViewItems"
       v-model="treeViewSelection"
       dense

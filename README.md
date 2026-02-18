@@ -93,15 +93,15 @@ const treeViewSelection = ref([]);
 
 ## 📃 Props
 
-| Name             | Type                    | Default | Description                                                                                                                                                   |
-| ---------------- | ----------------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `v-model`        | `number[]`              |         | Standard two way input                                                                                                                                        |
-| `dense`          | `boolean`               | false   | Changes the style of the component to a more compact design                                                                                                   |
-| `open-all`       | `boolean`               | false   | All nodes will be opened on component load                                                                                                                    |
-| `disabled`       | `boolean`               | false   | Makes the component uninteractable                                                                                                                            |
-| `selectable`     | `boolean`               | true    | Allows the user to select nodes                                                                                                                               |
-| `radio`          | `boolean`               | false   | Alternate selection item, uses a radio instead of the default checkbox                                                                                        |
-| `unopenable`     | `boolean`               | false   | Prevents the user from opening and closing the nodes                                                                                                          |
-| `selection-mode` | `independent` or `leaf` | leaf    | Changes the way selection is handled, `leaf` selects all of the children if clicking on a parent, ` independent` selects a node without triggering any others |
-| `color`          | `string`                | #7e7ec2 | Color of the active checkboxes                                                                                                                                |
-| `items`          | `NodeItem`              | []      | Items used by the tree view, every item must be defined with an `id` for a value and `name` for a label, the `children` property is optional                  |
+| Name             | Type                       | Default | Description                                                                                                                                                     |
+| ---------------- | -------------------------- | ------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `v-model`        | `number[]`                 |         | Standard two way input                                                                                                                                          |
+| `dense`          | `boolean`                  | false   | Changes the style of the component to a more compact design                                                                                                     |
+| `open-all`       | `boolean`                  | false   | All nodes will be opened on component load                                                                                                                      |
+| `disabled`       | `boolean`                  | false   | Makes the component uninteractable                                                                                                                              |
+| `selectable`     | `boolean`                  | true    | Allows the user to select nodes                                                                                                                                 |
+| `radio`          | `boolean`                  | false   | Alternate selection item, uses a radio instead of the default checkbox                                                                                          |
+| `unopenable`     | `boolean`                  | false   | Prevents the user from opening and closing the nodes                                                                                                            |
+| `selection-mode` | `independent` or `classic` | leaf    | Changes the way selection is handled, `classic` selects all of the children if clicking on a parent, `independent` selects a node without triggering any others |
+| `color`          | `string`                   | #7e7ec2 | Color of the active checkboxes                                                                                                                                  |
+| `items`          | `NodeItem`                 | []      | Items used by the tree view, every item must be defined with an `id` for a value and `name` for a label, the `children` property is optional                    |

@@ -56,6 +56,7 @@
         </template>
       </div>
     </div>
+
     <div class="treeview-node__children" v-if="isOpen">
       <tree-view-node
         v-for="child in props.item.children"
@@ -68,6 +69,7 @@
         :unopenable="props.unopenable"
         :identifier="props.identifier"
         :radio="props.radio"
+        :selection-mode="props.selectionMode"
         @change="childNodeChanged"
       />
     </div>
@@ -78,7 +80,7 @@
 import { useEventBus } from "@vueuse/core";
 import { computed, inject } from "vue";
 import { checkChildSelectStatus } from "./helpers";
-import { TreeViewNodeItem } from "./models";
+import { TreeViewNodeItem, TreeViewSelectionMode } from "./models";
 
 const emit = defineEmits<{
   (e: "change"): void;
@@ -96,7 +98,10 @@ const props = defineProps<{
   unopenable?: boolean;
   color?: string;
   identifier: number;
+  selectionMode?: TreeViewSelectionMode;
 }>();
+
+const isIndependent = computed(() => props.selectionMode === "independent");
 
 const { emit: emitNodeOpen } = useEventBus<number>(
   `open-node-${props.identifier}`
@@ -105,17 +110,16 @@ const { emit: emitNodeSelected } = useEventBus<TreeViewNodeItem>(
   `select-node-${props.identifier}`
 );
 
+const hasChildren = computed(
+  () => !!props.item.children && !!props.item.children.length
+);
+
 const classes = computed(() => ({
   "treeview-node--leaf": !hasChildren.value
 }));
 
 const isOpen = computed(() => openedNodes?.has(props.item.id));
-
 const isSelected = computed(() => selectedNodes?.has(props.item.id));
-
-const hasChildren = computed(
-  () => !!props.item.children && !!props.item.children.length
-);
 
 const allChildrenSelected = computed(() =>
   checkChildSelectStatus(selectedNodes!, props.item, "all")
@@ -126,18 +130,15 @@ const atLeastOneChildSelected = computed(() =>
 );
 
 const isChecked = computed(() => {
-  if (hasChildren.value) {
-    if (allChildrenSelected.value) return true;
-    if (atLeastOneChildSelected.value) return false;
-    return false;
-  }
+  if (isIndependent.value) return isSelected.value;
+  if (hasChildren.value) return allChildrenSelected.value;
   return isSelected.value;
 });
 
 const isIndeterminate = computed(() => {
+  if (isIndependent.value) return false;
   if (hasChildren.value) {
-    if (allChildrenSelected.value) return false;
-    if (atLeastOneChildSelected.value) return true;
+    return atLeastOneChildSelected.value && !allChildrenSelected.value;
   }
   return false;
 });
@@ -148,6 +149,7 @@ const numberOfLevels = computed(() => {
 });
 
 const childNodeChanged = () => {
+  if (isIndependent.value) return;
   const id = props.item.id;
   if (hasChildren.value) {
     if (allChildrenSelected.value) {

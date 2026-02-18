@@ -11,6 +11,7 @@
       :unopenable="props.unopenable"
       :radio="props.radio"
       :identifier="identifier"
+      :selection-mode="props.selectionMode"
     />
   </div>
 </template>
@@ -52,7 +53,7 @@ const props = withDefaults(
   }>(),
   {
     color: "#7e7ec2",
-    selectionMode: "leaf",
+    selectionMode: "classic",
     selectable: true,
     radio: false
   }
@@ -74,10 +75,7 @@ const nodeOpened = (id: number) => {
 };
 
 const unselectNode = (id: number) => state.selectedNodes.delete(id);
-
-const selectNode = (id: number) => {
-  state.selectedNodes.add(id);
-};
+const selectNode = (id: number) => state.selectedNodes.add(id);
 
 const toggleNode = (id: number) => {
   if (state.selectedNodes.has(id)) {
@@ -87,7 +85,22 @@ const toggleNode = (id: number) => {
   selectNode(id);
 };
 
+const selectRadio = (id: number) => {
+  state.selectedNodes.clear();
+  state.selectedNodes.add(id);
+};
+
 const nodeSelected = (item: TreeViewNodeItem) => {
+  if (props.radio) {
+    selectRadio(item.id);
+    return;
+  }
+
+  if (props.selectionMode === "independent") {
+    toggleNode(item.id);
+    return;
+  }
+
   if (!!item.children && !!item.children.length) {
     if (
       state.selectedNodes.has(item.id) &&
@@ -129,9 +142,7 @@ watch(
     emit("update:modelValue", [...val]);
     state.stopRecursion = true;
   },
-  {
-    deep: true
-  }
+  { deep: true }
 );
 
 watch(
@@ -147,9 +158,7 @@ watch(
     }
     state.selectedNodes.clear();
   },
-  {
-    immediate: true
-  }
+  { immediate: true }
 );
 
 onMounted(() => {
@@ -287,7 +296,9 @@ onUnmounted(() => {
   opacity: 0;
   transform: scale(1);
   pointer-events: none;
-  transition: opacity 0.3s, transform 0.2s;
+  transition:
+    opacity 0.3s,
+    transform 0.2s;
 }
 
 .m-checkbox > span {
@@ -307,7 +318,9 @@ onUnmounted(() => {
   width: 18px;
   height: 18px;
   vertical-align: top;
-  transition: border-color 0.2s, background-color 0.2s;
+  transition:
+    border-color 0.2s,
+    background-color 0.2s;
 }
 
 .m-checkbox > span::after {
@@ -360,7 +373,9 @@ onUnmounted(() => {
 .m-checkbox > input:active {
   opacity: 1;
   transform: scale(0);
-  transition: transform 0s, opacity 0s;
+  transition:
+    transform 0s,
+    opacity 0s;
 }
 
 .m-checkbox > input:active + span::before {
